@@ -1,0 +1,3 @@
+@reboot		root	/usr/sbin/linux-pstore
+@daily		root	/usr/sbin/linux-pstore
+
