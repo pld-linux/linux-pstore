@@ -4,7 +4,15 @@
 import datetime
 import os
 import re
+import socket
 import shutil
+import time
+
+uptime = True
+try:
+    import psutil
+except ModuleNotFoundError as e:
+    uptime = False
 
 pstoredir = '/sys/fs/pstore'
 archivedir = '/var/log/pstore'
@@ -19,7 +27,10 @@ files = sorted(os.listdir(pstoredir))
 if len(files) and not os.path.isdir(tdir):
     os.mkdir(tdir)
 
-msg = "Found %d files in pstore fs directory: \n\n" % len(files)
+msg =  "Hostname:           %s\n" % socket.getfqdn()
+if uptime:
+    msg += "Uptime:             %s\n" % str(datetime.timedelta(seconds=time.time()-psutil.boot_time()))
+msg += "Files in pstore:    %d\n" % len(files)
 
 for file in files:
     fpath = os.path.join(pstoredir, file)

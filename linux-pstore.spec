@@ -1,6 +1,6 @@
 Summary:	Save pstore logs and make room for future logs
 Name:		linux-pstore
-Version:	0.1
+Version:	0.2
 Release:	1
 License:	GPL
 Group:		Daemons
@@ -11,6 +11,7 @@ BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	crondaemon
 Requires:	python3
 Requires:	python3-modules
+Requires:	python3-psutil
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
