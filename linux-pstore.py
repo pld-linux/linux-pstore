@@ -25,7 +25,8 @@ def mount_pstore():
     try:
         if open('/proc/self/mounts', 'r').read().find('/sys/fs/pstore') >= 0:
             return
-        subprocess.run(["/bin/mount", "none", "/sys/fs/pstore", "-t", "pstore"], timeout=60, check=True, capture_output=True, text=True)
+        subprocess.run(["/bin/mount", "none", "/sys/fs/pstore", "-t", "pstore", "-o", "nosuid,nodev,noexec"],
+                       timeout=60, check=True, capture_output=True, text=True)
     except subprocess.CalledProcessError as e:
         print("%s: %s\nstdout=%s\nstderr=%s" % (sys.argv[0], e, e.stdout, e.stderr), file=sys.stderr)
         sys.exit(1)

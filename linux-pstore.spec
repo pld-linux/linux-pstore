@@ -1,6 +1,6 @@
 Summary:	Save pstore logs and make room for future logs
 Name:		linux-pstore
-Version:	0.3
+Version:	0.4
 Release:	1
 License:	GPL
 Group:		Daemons
