@@ -1,6 +1,6 @@
 Summary:	Save pstore logs and make room for future logs
 Name:		linux-pstore
-Version:	0.2
+Version:	0.3
 Release:	1
 License:	GPL
 Group:		Daemons
@@ -9,6 +9,7 @@ Source1:	%{name}.crontab
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.268
 Requires:	crondaemon
+Requires:	mount
 Requires:	python3
 Requires:	python3-modules
 Requires:	python3-psutil
@@ -33,12 +34,6 @@ cp -p %{SOURCE1} $RPM_BUILD_ROOT/etc/cron.d/linux-pstore
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-if [ -d /sys/fs/pstore ]; then
-	grep -qE "^none.*/sys/fs/pstore" %{_sysconfdir}/fstab || (echo -e "none\t\t/sys/fs/pstore\tpstore\tdefaults\t 0 0" >> %{_sysconfdir}/fstab && grep -q "/sys/fs/pstore" /proc/self/mounts || mount /sys/fs/pstore)
-	exit 0
-fi
 
 %files
 %defattr(644,root,root,755)

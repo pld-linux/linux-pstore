@@ -6,6 +6,8 @@ import os
 import re
 import socket
 import shutil
+import subprocess
+import sys
 import time
 
 uptime = True
@@ -19,8 +21,22 @@ archivedir = '/var/log/pstore'
 
 os.umask(0o077)
 
+def mount_pstore():
+    try:
+        if open('/proc/self/mounts', 'r').read().find('/sys/fs/pstore') >= 0:
+            return
+        subprocess.run(["/bin/mount", "none", "/sys/fs/pstore", "-t", "pstore"], timeout=60, check=True, capture_output=True, text=True)
+    except subprocess.CalledProcessError as e:
+        print("%s: %s\nstdout=%s\nstderr=%s" % (sys.argv[0], e, e.stdout, e.stderr), file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print("%s: %s" % (sys.argv[0], e), file=sys.stderr)
+        sys.exit(1)
+
 tdate = datetime.datetime.now().strftime("%Y-%m-%d")
 tdir = os.path.join(archivedir, tdate)
+
+mount_pstore()
 
 files = sorted(os.listdir(pstoredir))
 
