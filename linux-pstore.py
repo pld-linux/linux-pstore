@@ -73,7 +73,7 @@ for file in files:
         os.unlink(fpath)
 
     if file.endswith(".z"):
-        msg += "(content compressed which usually means it is corrupted for pstore)\n\n"
+        msg += "(content compressed which usually means it is compressed with different\ncompressor than currently configured in kernel for pstore)\n\n"
         fdata = re.sub(r'[^\x20-\x7E\n\t\r]+', lambda m: '.' * len(m.group()), fdata)
 
     msg += fdata
