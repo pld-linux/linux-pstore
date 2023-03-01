@@ -23,7 +23,7 @@ os.umask(0o077)
 
 def mount_pstore():
     try:
-        if open('/proc/self/mounts', 'r').read().find('/sys/fs/pstore') >= 0:
+        if not os.path.isfile('/bin/mount') or open('/proc/self/mounts', 'r').read().find('/sys/fs/pstore') >= 0:
             return
         subprocess.run(["/bin/mount", "none", "/sys/fs/pstore", "-t", "pstore", "-o", "nosuid,nodev,noexec"],
                        timeout=60, check=True, capture_output=True, text=True)
