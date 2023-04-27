@@ -34,6 +34,9 @@ def mount_pstore():
         print("%s: %s" % (sys.argv[0], e), file=sys.stderr)
         sys.exit(1)
 
+if not os.path.isdir(pstoredir):
+    sys.exit(0)
+
 tdate = datetime.datetime.now().strftime("%Y-%m-%d")
 tdir = os.path.join(archivedir, tdate)
 
